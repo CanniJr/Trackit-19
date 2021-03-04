@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { MenuItem, FormControl, Select } from '@material-ui/core'
+import DataBox from './DataBox'
+import Map from './Map';
 import './App.css';
 
 // API endpoint: https://disease.sh/v3/covid-19/countries
@@ -15,6 +17,7 @@ function App() {
       .then((resp) => resp.json())
       .then((data) => {
         const countriesData = data.map((countryObj) => ({
+          id: countryObj.countryInfo._id,
           name: countryObj.country,
           info: countryObj.countryInfo.iso2,
         }));
@@ -42,14 +45,16 @@ function App() {
           </Select>
         </FormControl>
       </div>
+      <div className='app__stats'>
+        <DataBox title='Covid-19 Cases'/>
+        <DataBox title='Deaths'/>
+        <DataBox title='Recovered'/>
+      </div>
         
-      {/*Infobox */}
-      {/*Infobox */}
-      {/*Infobox */}
-    
       {/*Table */}
       {/*Graph */}
       {/*Map */}
+      <Map/>
    </div>
   );
 }
