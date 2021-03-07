@@ -6,15 +6,30 @@ body {
   background-color: lightsteelblue;
 }
 
+.app {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 20px;
+}
+
+.app__main {
+  flex: 0.9;
+}
 
 .app__header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
+  justify-content: space-between;
 }
 
 .app__stats {
   display: flex;
   justify-content: space-between;
+}
+
+@media (max-width: 800px){
+  .app{
+    flex-direction: column;
+  }
 }
