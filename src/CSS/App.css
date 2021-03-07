@@ -16,6 +16,11 @@ body {
   flex: 0.9;
 }
 
+.app__side__cardHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
 .app__header {
   display: flex;
   align-items: center;
@@ -28,7 +33,7 @@ body {
   justify-content: space-between;
 }
 
-@media (max-width: 800px){
+@media (max-width: 990px){
   .app{
     flex-direction: column;
   }

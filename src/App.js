@@ -2,7 +2,9 @@ import React, {useState, useEffect} from 'react'
 import { MenuItem, FormControl, Select, Card } from '@material-ui/core'
 import DataBox from './DataBox'
 import Map from './Map';
-import './App.css';
+import Table from './Table'
+import { sortData } from './utility'
+import './CSS/App.css';
 
 // API endpoint: https://disease.sh/v3/covid-19/countries
 
@@ -10,7 +12,19 @@ function App() {
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState('worldwide')
   const [countryData, setCountryData] = useState({})
+  const [tableData, setTableData] = useState([]);
+  const [sortValue, setSortValue] = useState('')
   
+  //Loads worldwide cases data after component load
+  useEffect(()=> {
+    fetch('https://disease.sh/v3/covid-19/all')
+    .then(resp => resp.json())
+    .then(data => {
+      setCountryData(data)
+    });
+  }, [])
+
+  //Loads dropdown menu with countries and related data.
   useEffect(() => {
     // async function
     const getCountriesData = async () => {
@@ -22,14 +36,20 @@ function App() {
           name: countryObj.country,
           info: countryObj.countryInfo.iso2,
         }));
+
+        const sortedData = sortData(data)
         setCountries(countriesData)
+        setTableData(sortedData)
+
       });
     }
     getCountriesData();
   }, [])
 
   const changeHandler = (e) => {
-    const countryCode = e.target.value;
+    const countryCode = e.target.value; 
+
+    // to be continued: set alphabetic sort change value
     setCountry(countryCode)
 
     const url = countryCode === 'worldwide' 
@@ -69,7 +89,18 @@ function App() {
       </div>
 
       <Card className='app__side'>
-        <h1>This is the side</h1>
+        <div className='app__side__cardHeader'>
+          <h1>This is the side</h1>
+          <FormControl className='cardHeader__dropdown'>
+            <Select variant='outlined' value={sortValue}>
+                  <MenuItem value='alphabet'>Sort by Name</MenuItem>
+                  <MenuItem value='cases'>Sort by Cases</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+        <Table countries={tableData}/>
+        <h3>Worldwide new cases</h3>
+        {/* Graph */}
       </Card>
     </div>
   );
