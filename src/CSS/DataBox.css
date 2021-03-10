@@ -1,5 +1,6 @@
 .dataBox {
     flex: 1;
+    cursor: pointer;
 }
 
 .dataBox:not(:last-child) {
@@ -11,6 +12,18 @@
     font-weight: 600;
     font-size: 30px;
     margin-bottom: 10px;
+}
+
+.dataBox--red {
+    border-color: red;
+}
+
+.dataBox__cases--green {
+    color: lightgreen !important
+}
+
+.dataBox--selected {
+    border-top: 8px solid lightslategray
 }
 
 .dataBox__total {

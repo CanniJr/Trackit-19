@@ -52,7 +52,7 @@ const options = {
 
 //---------------LineGraph Component starts below-----------------
 
-function LineGraph({ casesType }) {
+function LineGraph({ casesType, ...props }) {
     const [data, setData] = useState({})
 
     useEffect(() => {
@@ -83,7 +83,7 @@ function LineGraph({ casesType }) {
 
 
     return (
-        <div>
+        <div className={props.className}>
             {data?.length > 0 && (
                 <Line 
                     data={{

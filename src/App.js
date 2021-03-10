@@ -91,7 +91,7 @@ function App() {
     <div className='app'>
       <div className='app__main'>
           <div className='app__header'>
-            <h1>Trackit-19!</h1>
+            <h1>Trackit-19 🦠</h1>
             <FormControl className='app__dropdown'>
               <Select variant='outlined' onChange={changeHandler} value={country}>
                 <MenuItem value='worldwide'>Worldwide</MenuItem>
@@ -103,6 +103,7 @@ function App() {
           </div>
           <div className='app__stats'>
             <DataBox 
+            isRed
             onClick={(e) => setCasesType('cases')}
             active={casesType === 'cases'}
             title='Covid-19 Cases' 
@@ -115,6 +116,7 @@ function App() {
             cases={formatNums(countryData.todayRecovered)} 
             total={formatNums(countryData.recovered)}/>
             <DataBox
+            isRed
             onClick={(e) => setCasesType('deaths')}
             active={casesType === 'deaths'}
             title='Deaths' 
@@ -133,17 +135,11 @@ function App() {
         <CardContent>
         <div className='app__side__cardHeader'>
           <h1>Live Cases by Country</h1>
-          <FormControl className='cardHeader__dropdown'>
-            <Select variant='outlined' onChange={sortHandler} value={sortValue}>
-                  <MenuItem value='alphabet'>Sort by Country</MenuItem>
-                  <MenuItem value='cases'>Sort by Cases</MenuItem>
-            </Select>
-          </FormControl>
         </div>
 
         <Table countries={tableData}/>
-        <h3>Worldwide new {casesType}</h3>
-        <LineGraph casesType={casesType} />
+        <h3 className='app__graphTitle'>Worldwide new {casesType}</h3>
+        <LineGraph className='app__graph' casesType={casesType} />
         </CardContent>
       </Card>
     </div>
