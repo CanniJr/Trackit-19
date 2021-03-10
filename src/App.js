@@ -61,7 +61,7 @@ function App() {
     setCountry(countryCode)
 
     const url = countryCode === 'worldwide' 
-    ? 'https://disease.sh/v3/covid-19/all' 
+    ? 'https://disease.sh/v3/covid-19/all'
     : `https://disease.sh/v3/covid-19/countries/${countryCode}`
 
     await fetch(url)
@@ -70,8 +70,14 @@ function App() {
 
       setCountryData(data)
       setCountry(countryCode)
-      setMapCenter([data.countryInfo.lat, data.countryInfo.long])
-      setMapZoom(4)
+      
+      countryCode === 'worldwide' 
+        ? setMapCenter({
+            lat: 34.80746,
+            lng: -40.4796})
+        : setMapCenter([data.countryInfo.lat, data.countryInfo.long])
+      
+      countryCode === 'worldwide' ? setMapZoom(2) : setMapZoom(4)
     })
   }
 
@@ -98,16 +104,19 @@ function App() {
           <div className='app__stats'>
             <DataBox 
             onClick={(e) => setCasesType('cases')}
+            active={casesType === 'cases'}
             title='Covid-19 Cases' 
             cases={formatNums(countryData.todayCases)} 
             total={formatNums(countryData.cases)}/>
             <DataBox
             onClick={(e) => setCasesType('recovered')}
+            active={casesType === 'recovered'}
             title='Recovered' 
             cases={formatNums(countryData.todayRecovered)} 
             total={formatNums(countryData.recovered)}/>
             <DataBox
             onClick={(e) => setCasesType('deaths')}
+            active={casesType === 'deaths'}
             title='Deaths' 
             cases={formatNums(countryData.todayDeaths)} 
             total={formatNums(countryData.deaths)}/>
@@ -133,8 +142,8 @@ function App() {
         </div>
 
         <Table countries={tableData}/>
-        <h3>Worldwide new cases</h3>
-        <LineGraph />
+        <h3>Worldwide new {casesType}</h3>
+        <LineGraph casesType={casesType} />
         </CardContent>
       </Card>
     </div>

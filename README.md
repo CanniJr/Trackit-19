@@ -11,5 +11,7 @@ My final project from Flatiron School utilizes Leaflet.js to render a map with i
 - React-Leaflet
     * an update in the react-leaflet library changes how we set state and re-render the immutable MapContainer. Used the provided useMap() hook from react-leaflet for it to function.
 
+    * https://react-leaflet.js.org/docs/example-layers-control for how to fill circle colors with the new update
+
 ## API
 - disease.sh
