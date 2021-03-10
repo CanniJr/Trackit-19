@@ -1,0 +1,21 @@
+.dataBox {
+    flex: 1;
+}
+
+.dataBox:not(:last-child) {
+    margin-right: 15px;
+}
+
+.dataBox__cases {
+    color: red;
+    font-weight: 600;
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.dataBox__total {
+    color: lightgray;
+    font-weight: 700 !important;
+    font-size: 0.8rem !important;
+    margin-top: 15px !important;
+}

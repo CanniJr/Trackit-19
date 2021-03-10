@@ -4,24 +4,30 @@ import DataBox from './DataBox'
 import Map from './Map';
 import Table from './Table'
 import LineGraph from './LineGraph'
-import { sortData } from './utility'
+import { sortData, formatNums } from './utility'
 import './CSS/App.css';
+import 'leaflet/dist/leaflet.css';
+
 
 // API endpoint: https://disease.sh/v3/covid-19/countries
 
 function App() {
   const [countries, setCountries] = useState([]);
-  const [country, setCountry] = useState('worldwide')
-  const [countryData, setCountryData] = useState({})
+  const [country, setCountry] = useState('worldwide');
+  const [countryData, setCountryData] = useState({});
   const [tableData, setTableData] = useState([]);
-  const [sortValue, setSortValue] = useState('')
+  const [mapCountries, setMapCountries] = useState([]);
+  const [sortValue, setSortValue] = useState('');
+  const [mapZoom, setMapZoom] = useState(3);
+  const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
+  const [casesType, setCasesType] = useState('cases');
   
   //Loads worldwide cases data after component load
   useEffect(()=> {
     fetch('https://disease.sh/v3/covid-19/all')
     .then(resp => resp.json())
     .then(data => {
-      setCountryData(data)
+      setCountryData(data);
     });
   }, [])
 
@@ -41,13 +47,14 @@ function App() {
         const sortedData = sortData(data)
         setCountries(countriesData)
         setTableData(sortedData)
+        setMapCountries(data)
 
       });
     }
     getCountriesData();
   }, [])
 
-  const changeHandler = (e) => {
+  const changeHandler = async (e) => {
     const countryCode = e.target.value; 
 
     // to be continued: set alphabetic sort change value
@@ -57,12 +64,14 @@ function App() {
     ? 'https://disease.sh/v3/covid-19/all' 
     : `https://disease.sh/v3/covid-19/countries/${countryCode}`
 
-    fetch(url)
-    .then(resp => resp.json())
-    .then(data => {
+    await fetch(url)
+    .then((resp) => resp.json())
+    .then((data) => {
 
       setCountryData(data)
       setCountry(countryCode)
+      setMapCenter([data.countryInfo.lat, data.countryInfo.long])
+      setMapZoom(4)
     })
   }
 
@@ -70,7 +79,7 @@ function App() {
     const sortedValue = e.target.value;
     setSortValue(sortedValue)
 
-  }
+  } 
 
   return (
     <div className='app'>
@@ -87,11 +96,28 @@ function App() {
             </FormControl>
           </div>
           <div className='app__stats'>
-            <DataBox title='Covid-19 Cases' cases={countryData.todayCases} total={countryData.cases}/>
-            <DataBox title='Deaths' cases={countryData.todayDeaths} total={countryData.deaths}/>
-            <DataBox title='Recovered' cases={countryData.todayRecovered} total={countryData.recovered}/>
+            <DataBox 
+            onClick={(e) => setCasesType('cases')}
+            title='Covid-19 Cases' 
+            cases={formatNums(countryData.todayCases)} 
+            total={formatNums(countryData.cases)}/>
+            <DataBox
+            onClick={(e) => setCasesType('recovered')}
+            title='Recovered' 
+            cases={formatNums(countryData.todayRecovered)} 
+            total={formatNums(countryData.recovered)}/>
+            <DataBox
+            onClick={(e) => setCasesType('deaths')}
+            title='Deaths' 
+            cases={formatNums(countryData.todayDeaths)} 
+            total={formatNums(countryData.deaths)}/>
           </div>
-        <Map/>
+        <Map 
+          casesType={casesType}
+          countries={mapCountries}
+          center={mapCenter}
+          zoom={mapZoom}
+        />
       </div>
 
       <Card className='app__side'>
@@ -109,7 +135,6 @@ function App() {
         <Table countries={tableData}/>
         <h3>Worldwide new cases</h3>
         <LineGraph />
-        {/* Graph */}
         </CardContent>
       </Card>
     </div>
