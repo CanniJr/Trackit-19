@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react'
-import { MenuItem, FormControl, Select, Card } from '@material-ui/core'
+import { MenuItem, FormControl, Select, Card, CardContent } from '@material-ui/core'
 import DataBox from './DataBox'
 import Map from './Map';
 import Table from './Table'
+import LineGraph from './LineGraph'
 import { sortData } from './utility'
 import './CSS/App.css';
 
@@ -65,7 +66,12 @@ function App() {
     })
   }
 
-  console.log(countryData)
+  const sortHandler = (e) => {
+    const sortedValue = e.target.value;
+    setSortValue(sortedValue)
+
+  }
+
   return (
     <div className='app'>
       <div className='app__main'>
@@ -89,18 +95,22 @@ function App() {
       </div>
 
       <Card className='app__side'>
+        <CardContent>
         <div className='app__side__cardHeader'>
-          <h1>This is the side</h1>
+          <h1>Live Cases by Country</h1>
           <FormControl className='cardHeader__dropdown'>
-            <Select variant='outlined' value={sortValue}>
-                  <MenuItem value='alphabet'>Sort by Name</MenuItem>
+            <Select variant='outlined' onChange={sortHandler} value={sortValue}>
+                  <MenuItem value='alphabet'>Sort by Country</MenuItem>
                   <MenuItem value='cases'>Sort by Cases</MenuItem>
             </Select>
           </FormControl>
         </div>
+
         <Table countries={tableData}/>
         <h3>Worldwide new cases</h3>
+        <LineGraph />
         {/* Graph */}
+        </CardContent>
       </Card>
     </div>
   );
