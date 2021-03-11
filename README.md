@@ -1,6 +1,6 @@
 # This app tracks Covid-19 cases
 
-My final project from Flatiron School utilizes Leaflet.js to render a map with it's additional features. This is an attempt to further improve on what I will use using the same library.
+I'm using React-Leaflet to render the map and an API to add graph data into the app.
 
 ## What I use for the app:
 - Material UI
