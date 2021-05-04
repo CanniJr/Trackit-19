@@ -135,6 +135,12 @@ function App() {
         <CardContent>
         <div className='app__side__cardHeader'>
           <h1>Live Cases by Country</h1>
+          <FormControl variant='outlined'>
+            <Select >
+              <MenuItem value='alphabet'>Sort by Country</MenuItem>
+              <MenuItem value='cases'>Sort by Cases</MenuItem>
+            </Select>
+          </FormControl>
         </div>
 
         <Table countries={tableData}/>

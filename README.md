@@ -15,3 +15,7 @@ I'm using React-Leaflet to render the map and an API to add graph data into the 
 
 ## API
 - disease.sh
+
+## Plans
+
+Further plans is to have the map render cases by cities and show areas that have some of it's population vaccinated. 
